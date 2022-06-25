@@ -15,9 +15,9 @@ class App extends Component {
         super(props)
         this.state = {
             data: [
-                { name: 'Alex S.', salary: 2050, increase: false, id: 1 },
-                { name: 'Denys C.', salary: 5000, increase: false, id: 2 },
-                { name: 'John W.', salary: 780, increase: false, id: 3 },
+                { name: 'Alex S.', salary: 2050, increase: false, rise: false, id: 1 },
+                { name: 'Denys C.', salary: 5000, increase: true, rise: false, id: 2 },
+                { name: 'John W.', salary: 780, increase: false, rise: false, id: 3 },
             ]
         }
         this.maxId = 4;
@@ -38,6 +38,7 @@ class App extends Component {
                 name,
                 salary,
                 increase: false,
+                rise: false,
                 id: this.maxId++
             }
 
@@ -48,6 +49,25 @@ class App extends Component {
                 }
             })
         }
+    }
+
+    onTogleIncrease = (id) => {
+        this.setState(({ data }) => ({
+            data: data.map(item => {
+                if (item.id === id) {
+                    return { ...item, increase: !item.increase }
+                }
+                return item
+            })
+        }))
+
+
+
+
+
+    }
+    onTogleRise = (id) => {
+        console.log(` rise ${id}`);
     }
 
     render() {
@@ -61,7 +81,9 @@ class App extends Component {
                 </div>
 
                 <EmployesList data={this.state.data}
-                    onDelete={this.deleteItem} />
+                    onDelete={this.deleteItem}
+                    onTogleIncrease={this.onTogleIncrease}
+                    onTogleRise={this.onTogleRise} />
                 <EmplopyesAddForm
                     onAdd={this.addEmployees} />
             </div>
