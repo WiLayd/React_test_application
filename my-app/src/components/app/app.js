@@ -15,7 +15,7 @@ class App extends Component {
         super(props)
         this.state = {
             data: [
-                { name: 'Alex S.', salary: 2050, increase: false, rise: false, id: 1 },
+                { name: 'Alex S.', salary: 2050, increase: false, rise: true, id: 1 },
                 { name: 'Denys C.', salary: 5000, increase: true, rise: false, id: 2 },
                 { name: 'John W.', salary: 780, increase: false, rise: false, id: 3 },
             ]
@@ -60,20 +60,29 @@ class App extends Component {
                 return item
             })
         }))
-
-
-
-
-
     }
+
     onTogleRise = (id) => {
-        console.log(` rise ${id}`);
+        this.setState(({ data }) => ({
+            data: data.map(item => {
+                if (item.id === id) {
+                    return { ...item, rise: !item.rise }
+                }
+                return item
+            })
+        }))
     }
+
 
     render() {
+
+        const employees = this.state.data.length
+        const employeesIncrease = this.state.data.filter(item => item.increase).length
+
         return (
             <div className='app'>
-                <AppInfo />
+                <AppInfo numberEmployees={employees}
+                    increaseNumber={employeesIncrease} />
 
                 <div className="search-panel">
                     <SearchPanel />

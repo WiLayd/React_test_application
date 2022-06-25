@@ -7,7 +7,8 @@ const EmployesListItem = (props) => {
 
     if (increase) {
         classNames += ' increase'
-    } else if (rise) {
+    }
+    if (rise) {
         classNames += ' like'
     }
 
