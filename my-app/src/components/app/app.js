@@ -19,7 +19,8 @@ class App extends Component {
                 { name: 'Denys C.', salary: 5000, increase: true, rise: false, id: 2 },
                 { name: 'John W.', salary: 780, increase: false, rise: false, id: 3 },
             ],
-            term: ''
+            term: '',
+            btnId: ''
         }
         this.maxId = 4;
     }
@@ -88,13 +89,28 @@ class App extends Component {
         this.setState({ term })
     }
 
+    onGetBtnId = (id) => {
+        this.setState({ btnId: id })
+    }
+
+    changeFilter = (id, items) => {
+        if (id === 'btn-rise') {
+            return items.filter(item => item.rise === true)
+        } else if (id === 'btn-salary') {
+            return items.filter(item => item.salary > 1000)
+        }
+        return items
+    }
+
+
+
 
     render() {
 
-        const { data, term } = this.state
+        const { data, term, btnId } = this.state
         const employees = this.state.data.length
         const employeesIncrease = this.state.data.filter(item => item.increase).length
-        const visibleData = this.searchEmp(data, term)
+        const filterData = this.changeFilter(btnId, this.searchEmp(data, term))
 
         return (
             <div className='app'>
@@ -103,10 +119,10 @@ class App extends Component {
 
                 <div className="search-panel">
                     <SearchPanel onUpdateSearch={this.onUpdateSearch} />
-                    <AppFilter />
+                    <AppFilter onGetBtnId={this.onGetBtnId} />
                 </div>
 
-                <EmployesList data={visibleData}
+                <EmployesList data={filterData}
                     onDelete={this.deleteItem}
                     onTogleIncrease={this.onTogleIncrease}
                     onTogleRise={this.onTogleRise} />
